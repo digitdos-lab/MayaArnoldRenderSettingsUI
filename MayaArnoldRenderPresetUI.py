@@ -106,9 +106,9 @@ class ArnoldRenderSettings(QtWidgets.QDialog):
             self.aaSpin.setValue(3)
             self.diffuseSpin.setValue(1)
             self.specularSpin.setValue(1)
-            self.transSpin.setValue(0)
-            self.sssSpin.setValue(0)
-            self.volumeSpin.setValue(0)
+            self.transSpin.setValue(1)
+            self.sssSpin.setValue(1)
+            self.volumeSpin.setValue(1)
             self.thresholdSpin.setValue(0.05)
 
         elif self.mediumRadio.isChecked():
@@ -118,7 +118,7 @@ class ArnoldRenderSettings(QtWidgets.QDialog):
             self.specularSpin.setValue(2)
             self.transSpin.setValue(2)
             self.sssSpin.setValue(2)
-            self.volumeSpin.setValue(0)
+            self.volumeSpin.setValue(1)
             self.thresholdSpin.setValue(0.015)
 
         elif self.highRadio.isChecked():
