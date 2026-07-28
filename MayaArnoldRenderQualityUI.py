@@ -17,8 +17,8 @@ cmds.setAttr("defaultArnoldRenderOptions.GISssSamples", 5)
 cmds.setAttr("defaultArnoldRenderOptions.GIVolumeSamples", 2)
 
 
-lights = cmds.ls(light=True)
+light_shapes = cmds.ls(light=True)
 
-for light in lights :
-  cmds.setAttr("[light].aiSamples", 2)
-  cmds.setAttr("[light].exposure", 8)
+for lgt in lights_shapes :
+  cmds.setAttr("[lgt].aiSamples", 2)
+  cmds.setAttr("[lgt].exposure", 8)
