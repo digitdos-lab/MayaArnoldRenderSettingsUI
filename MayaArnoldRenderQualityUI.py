@@ -133,35 +133,35 @@ class ArnoldRenderSettings(QtWidgets.QDialog):
 
     def applySettings(self):
 
-    cmds.setAttr("defaultArnoldRenderOptions.AASamples",
+        cmds.setAttr("defaultArnoldRenderOptions.AASamples",
                  self.aaSpin.value())
 
-    cmds.setAttr("defaultArnoldRenderOptions.GIDiffuseSamples",
+        cmds.setAttr("defaultArnoldRenderOptions.GIDiffuseSamples",
                  self.diffuseSpin.value())
 
-    cmds.setAttr("defaultArnoldRenderOptions.GISpecularSamples",
+        cmds.setAttr("defaultArnoldRenderOptions.GISpecularSamples",
                  self.specularSpin.value())
 
-    cmds.setAttr("defaultArnoldRenderOptions.GITransmissionSamples",
+        cmds.setAttr("defaultArnoldRenderOptions.GITransmissionSamples",
                  self.transSpin.value())
 
-    cmds.setAttr("defaultArnoldRenderOptions.GISssSamples",
+        cmds.setAttr("defaultArnoldRenderOptions.GISssSamples",
                  self.sssSpin.value())
 
-    cmds.setAttr("defaultArnoldRenderOptions.GIVolumeSamples",
+        cmds.setAttr("defaultArnoldRenderOptions.GIVolumeSamples",
                  self.volumeSpin.value())
 
-    cmds.setAttr("defaultArnoldRenderOptions.enableAdaptiveSampling",
+        cmds.setAttr("defaultArnoldRenderOptions.enableAdaptiveSampling",
                  self.adaptiveCheck.isChecked())
 
-    cmds.setAttr("defaultArnoldRenderOptions.AAAdaptiveThreshold",
+        cmds.setAttr("defaultArnoldRenderOptions.AAAdaptiveThreshold",
                  self.thresholdSpin.value())
 
-    cmds.inViewMessage(
-        amg='<hl>Arnold Render Settings Applied</hl>',
-        pos='midCenter',
-        fade=True
-    )        
+        cmds.inViewMessage(
+            amg='<hl>Arnold Render Settings Applied</hl>',
+            pos='midCenter',
+            fade=True
+        )        
 
 
 try:
