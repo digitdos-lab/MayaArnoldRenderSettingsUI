@@ -14,9 +14,9 @@ class ArnoldRenderSettings(QtWidgets.QDialog):
 
     def createWidgets(self):
 
-        self.lowRadio = QtWidgets.QRadioButton("Low (FirstPass/IPR)")
-        self.mediumRadio = QtWidgets.QRadioButton("Medium (Lighting)")
-        self.highRadio = QtWidgets.QRadioButton("High (Final)")
+        self.lowRadio = QtWidgets.QRadioButton("Low (LightingFirstPass/IPR)")
+        self.mediumRadio = QtWidgets.QRadioButton("Medium (LightingWIP)")
+        self.highRadio = QtWidgets.QRadioButton("High (LightingFinal)")
 
         self.mediumRadio.setChecked(True)
 
