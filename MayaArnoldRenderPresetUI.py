@@ -5,7 +5,7 @@ class ArnoldRenderSettings(QtWidgets.QDialog):
     def __init__(self, parent=None):
         super(ArnoldRenderSettings, self).__init__(parent)
 
-        self.setWindowTitle("Arnold Render Presets")
+        self.setWindowTitle("KAIM27 Arnold Render Presets")
         self.resize(420, 420)
 
         self.createWidgets()
