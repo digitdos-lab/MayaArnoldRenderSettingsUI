@@ -4,18 +4,22 @@ class ArnoldRenderSettings(QtWidgets.QDialog):
 
     def __init__(self, parent=None):
         super(ArnoldRenderSettings, self).__init__(parent)
+    
+    def __init__(self, parent=None):
+        super(ArnoldRenderSettings, self).__init__(parent)
 
-        self.setWindowTitle("KAIM27 Arnold Render Presets")
+        self.setWindowTitle("KBK Arnold Render Presets")
         self.resize(420, 420)
 
         self.createWidgets()
         self.createLayout()
         self.createConnections()
 
+
     def createWidgets(self):
 
-        self.lowRadio = QtWidgets.QRadioButton("Low (LightingFirstPass)")
-        self.mediumRadio = QtWidgets.QRadioButton("Medium (LightingWIP)")
+        self.lowRadio = QtWidgets.QRadioButton("Fast IPR)")
+        self.mediumRadio = QtWidgets.QRadioButton("Medium (FirstPass/LightingWIP)")
         self.highRadio = QtWidgets.QRadioButton("High (LightingFinal)")
 
         self.mediumRadio.setChecked(True)
@@ -38,12 +42,39 @@ class ArnoldRenderSettings(QtWidgets.QDialog):
             widget.setRange(0,10)
 
         self.adaptiveCheck = QtWidgets.QCheckBox("Enable Adaptive Sampling")
-        self.adaptiveCheck.setChecked(True)
+        self.adaptiveCheck.setChecked(False)
 
         self.thresholdSpin = QtWidgets.QDoubleSpinBox()
         self.thresholdSpin.setDecimals(4)
         self.thresholdSpin.setRange(0.0001,1.0)
         self.thresholdSpin.setSingleStep(0.001)
+
+
+        self.motionblurCheck = QtWidgets.QCheckBox("Enable Arnold Motion Blur")
+        self.motionblurCheck.setChecked(True)
+        self.instantaneousShutterCheck = QtWidgets.QCheckBox("Instantaneous Shutter")
+        self.instantaneousShutterCheck.setChecked(False)
+        self.deformationCheck = QtWidgets.QCheckBox("Deformation")
+        self.deformationCheck.setChecked(True)
+        self.cameraCheck = QtWidgets.QCheckBox("Camera")
+        self.cameraCheck.setChecked(True)
+        self.shadersCheck = QtWidgets.QCheckBox("Shaders")
+        self.shadersCheck.setChecked(False)
+        
+        self.keySpin = QtWidgets.QDoubleSpinBox()
+        self.keySpin.setDecimals(4)
+        self.keySpin.setRange(2,10)
+        self.keySpin.setSingleStep(1)
+
+        self.rangeSpin = QtWidgets.QDoubleSpinBox()
+        self.rangeSpin.setDecimals(4)
+        self.rangeSpin.setRange(0.2000,1.0)
+        self.rangeSpin.setSingleStep(0.001)
+        
+        self.positionSpin = QtWidgets.QDoubleSpinBox()
+        self.positionSpin.setDecimals(4)
+        self.positionSpin.setRange(0,3)
+        self.positionSpin.setSingleStep(1)
 
         self.applyButton = QtWidgets.QPushButton("Apply Preset")
         self.closeButton = QtWidgets.QPushButton("Close")
@@ -79,7 +110,29 @@ class ArnoldRenderSettings(QtWidgets.QDialog):
         layout.addWidget(QtWidgets.QLabel("Adaptive Threshold"))
 
         layout.addWidget(self.thresholdSpin)
+        
+        layout.addWidget(self.motionblurCheck)
+        
+        layout.addWidget(self.instantaneousShutterCheck)
+        
+        layout.addWidget(self.deformationCheck)
+        
+        layout.addWidget(self.cameraCheck)
+        
+        layout.addWidget(self.shadersCheck)
 
+        layout.addWidget(QtWidgets.QLabel("Key"))
+        
+        layout.addWidget(self.keySpin)
+        
+        layout.addWidget(QtWidgets.QLabel("Range"))
+        
+        layout.addWidget(self.rangeSpin)
+        
+
+        layout.addWidget(QtWidgets.QLabel("Position"))
+        layout.addWidget(self.positionSpin)
+        
         buttonLayout = QtWidgets.QHBoxLayout()
 
         buttonLayout.addWidget(self.applyButton)
@@ -93,7 +146,7 @@ class ArnoldRenderSettings(QtWidgets.QDialog):
         self.mediumRadio.toggled.connect(self.loadPreset)
         self.highRadio.toggled.connect(self.loadPreset)
 
-        self.applyButton.clicked.connect(self.applySettings)   # <-- Add this
+        self.applyButton.clicked.connect(self.applySettings) 
 
         self.closeButton.clicked.connect(self.close)
 
@@ -108,28 +161,31 @@ class ArnoldRenderSettings(QtWidgets.QDialog):
             self.specularSpin.setValue(1)
             self.transSpin.setValue(1)
             self.sssSpin.setValue(1)
-            self.volumeSpin.setValue(1)
+            self.volumeSpin.setValue(0)
             self.thresholdSpin.setValue(0.05)
+            self.positionSpin.setValue(2)
 
         elif self.mediumRadio.isChecked():
 
             self.aaSpin.setValue(4)
-            self.diffuseSpin.setValue(2)
+            self.diffuseSpin.setValue(3)
             self.specularSpin.setValue(2)
             self.transSpin.setValue(2)
-            self.sssSpin.setValue(2)
-            self.volumeSpin.setValue(1)
+            self.sssSpin.setValue(3)
+            self.volumeSpin.setValue(0)
             self.thresholdSpin.setValue(0.015)
+            self.positionSpin.setValue(2)
 
         elif self.highRadio.isChecked():
 
-            self.aaSpin.setValue(5)
-            self.diffuseSpin.setValue(3)
-            self.specularSpin.setValue(3)
-            self.transSpin.setValue(3)
+            self.aaSpin.setValue(4)
+            self.diffuseSpin.setValue(4)
+            self.specularSpin.setValue(2)
+            self.transSpin.setValue(2)
             self.sssSpin.setValue(5)
-            self.volumeSpin.setValue(2)
+            self.volumeSpin.setValue(0)
             self.thresholdSpin.setValue(0.005)
+            self.positionSpin.setValue(2)
 
     def applySettings(self):
 
@@ -156,6 +212,32 @@ class ArnoldRenderSettings(QtWidgets.QDialog):
 
         cmds.setAttr("defaultArnoldRenderOptions.AAAdaptiveThreshold",
                  self.thresholdSpin.value())
+
+        cmds.setAttr("defaultArnoldRenderOptions.motion_blur_enable",
+                 self.motionblurCheck.isChecked())
+
+        cmds.setAttr("defaultArnoldRenderOptions.ignoreMotionBlur",
+                 self.instantaneousShutterCheck.isChecked())
+
+        cmds.setAttr("defaultArnoldRenderOptions.mb_object_deform_enable",
+                 self.deformationCheck.isChecked())
+
+        cmds.setAttr("defaultArnoldRenderOptions.mb_camera_enable",
+                 self.cameraCheck.isChecked())
+
+        cmds.setAttr("defaultArnoldRenderOptions.mb_shader_enable", 
+                 self.shadersCheck.isChecked())
+        
+        cmds.setAttr("defaultArnoldRenderOptions.motion_steps",
+                self.keySpin.value())
+        
+        cmds.setAttr("defaultArnoldRenderOptions.motion_frames",
+                self.rangeSpin.value())
+        
+        cmds.setAttr("defaultArnoldRenderOptions.range_type",
+                self.positionSpin.value())
+               
+        cmds.setAttr("defaultArnold")
 
         cmds.inViewMessage(
             amg='<hl>Arnold Render Settings Applied</hl>',
